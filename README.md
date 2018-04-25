@@ -14,14 +14,16 @@ Summary: The Meson Build System
 Current build status
 ====================
 
-Linux: [![Circle CI](https://circleci.com/gh/conda-forge/meson-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/meson-feedstock)
-OSX: [![TravisCI](https://travis-ci.org/conda-forge/meson-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/meson-feedstock)
-Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/meson-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/meson-feedstock/branch/master)
+[![Linux](https://img.shields.io/circleci/project/github/conda-forge/meson-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/meson-feedstock)
+[![OSX](https://img.shields.io/travis/conda-forge/meson-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/meson-feedstock)
+[![Windows](https://img.shields.io/appveyor/ci/conda-forge/meson-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/meson-feedstock/branch/master)
 
 Current release info
 ====================
-Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/meson/badges/version.svg)](https://anaconda.org/conda-forge/meson)
-Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/meson/badges/downloads.svg)](https://anaconda.org/conda-forge/meson)
+
+| Name | Downloads | Version | Platforms |
+| --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-meson-green.svg)](https://anaconda.org/conda-forge/meson) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/meson.svg)](https://anaconda.org/conda-forge/meson) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/meson.svg)](https://anaconda.org/conda-forge/meson) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/meson.svg)](https://anaconda.org/conda-forge/meson) |
 
 Installing meson
 ================
