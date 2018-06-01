@@ -28,6 +28,8 @@ requirements:
 test:
   commands:
     - meson -h
+    - meson -v
+    - where meson  # [win]
 
 about:
   home: http://mesonbuild.com
