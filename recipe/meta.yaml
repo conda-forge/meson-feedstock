@@ -13,17 +13,21 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed meson
 
 requirements:
   build:
-    - python >=3.5
+    - ninja >=1.8.2
+    - {{ compiler('fortran') }}
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+  host:
+    - python
     - setuptools
     - pip
   run:
-    - python >=3.5
-    - ninja >=1.8.2
+    - python
 
 test:
   commands:
