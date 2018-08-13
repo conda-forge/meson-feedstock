@@ -15,14 +15,15 @@ source:
 build:
   number: 0
   script: python -m pip install --no-deps --ignore-installed meson
+  skip: true  # [py2k]
 
 requirements:
-  build:
-    - python >=3.5
+  host:
+    - python
     - setuptools
     - pip
   run:
-    - python >=3.5
+    - python
     - ninja >=1.8.2
 
 test:
