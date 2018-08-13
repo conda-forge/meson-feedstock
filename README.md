@@ -14,9 +14,8 @@ Summary: The Meson Build System
 Current build status
 ====================
 
-[![Linux](https://img.shields.io/circleci/project/github/conda-forge/meson-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/meson-feedstock)
-[![OSX](https://img.shields.io/travis/conda-forge/meson-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/meson-feedstock)
-[![Windows](https://img.shields.io/appveyor/ci/conda-forge/meson-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/meson-feedstock/branch/master)
+All platforms:
+[![noarch](https://img.shields.io/circleci/project/github/conda-forge/meson-feedstock/master.svg?label=noarch)](https://circleci.com/gh/conda-forge/meson-feedstock)
 
 Current release info
 ====================
