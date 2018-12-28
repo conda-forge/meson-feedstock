@@ -1,0 +1,14 @@
+diff --git a/mesonbuild/mesonmain.py b/mesonbuild/mesonmain.py
+index dfad2e7..06ea91e 100644
+--- a/mesonbuild/mesonmain.py
++++ b/mesonbuild/mesonmain.py
+@@ -256,7 +256,8 @@ def run_script_command(args):
+ def set_meson_command(mainfile):
+     # On UNIX-like systems `meson` is a Python script
+     # On Windows `meson` and `meson.exe` are wrapper exes
+-    if not mainfile.endswith('.py'):
++    # ^^^ this is not true on Conda: for us, on Windows, `meson` is a wrapper script
++    if not mainfile.endswith('.py') and not sys.platform.startswith('win'):
+         mesonlib.meson_command = [mainfile]
+     elif os.path.isabs(mainfile) and mainfile.endswith('mesonmain.py'):
+         # Can't actually run meson with an absolute path to mesonmain.py, it must be run as -m mesonbuild.mesonmain
