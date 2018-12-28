@@ -11,9 +11,11 @@ source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - windows-reexec.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install --no-deps --ignore-installed .
   noarch: python
 
@@ -30,7 +32,7 @@ test:
   commands:
     - meson -h
     - meson -v
-    - where meson  # [win]
+    - meson --internal delsuffix . nomatchqqq  # test reexecution (GitHub issue #11)
 
 about:
   home: http://mesonbuild.com
