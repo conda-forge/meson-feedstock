@@ -1,6 +1,6 @@
 {% set name = "meson" %}
-{% set version = "0.49.0" %}
-{% set sha256 = "a0cd55372208730eca5cd7cdff7948e439a006d8587c50c4445be1a0e88b2521" %}
+{% set version = "0.49.1" %}
+{% set sha256 = "1a944b01de151c2d19594c652e484b0c04628afca974fc1713182b84ec249917" %}
 
 
 package:
@@ -16,7 +16,7 @@ source:
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install --no-deps --ignore-installed .
+  script: "{{ PYTHON }} -m pip install . -vv"
   noarch: python
 
 requirements:
@@ -45,4 +45,5 @@ about:
 extra:
   recipe-maintainers:
     - dirmeier
+    - pkgw
     - SoapZA
