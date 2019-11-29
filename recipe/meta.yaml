@@ -1,6 +1,6 @@
 {% set name = "meson" %}
-{% set version = "0.52.0" %}
-{% set sha256 = "90a6542886e8b6a03439bdfde802de8a7af6ed462654dfc95e7420073d66a315" %}
+{% set version = "0.52.1" %}
+{% set sha256 = "56799736b5bbc27b78bd2546a7dc4990d0bbde4e154c057a8c7e38e9c2ccd609" %}
 
 package:
   name: "{{ name|lower }}"
