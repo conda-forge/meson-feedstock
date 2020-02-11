@@ -1,6 +1,6 @@
 {% set name = "meson" %}
-{% set version = "0.52.1" %}
-{% set sha256 = "56799736b5bbc27b78bd2546a7dc4990d0bbde4e154c057a8c7e38e9c2ccd609" %}
+{% set version = "0.53.1" %}
+{% set sha256 = "ec1ba33eea701baca2c1607dac458152dc8323364a51fdef6babda2623413b04" %}
 
 package:
   name: "{{ name|lower }}"
@@ -10,7 +10,9 @@ source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
   patches:
+    - 0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
     - windows-reexec.patch
 
 build:
@@ -20,11 +22,11 @@ build:
 
 requirements:
   host:
-    - python >=3.5
+    - python >=3.5.2
     - setuptools
     - pip
   run:
-    - python >=3.5
+    - python >=3.5.2
     - ninja >=1.8.2
 
 test:
