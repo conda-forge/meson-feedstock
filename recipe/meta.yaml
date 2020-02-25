@@ -1,9 +1,9 @@
 {% set name = "meson" %}
-{% set version = "0.53.1" %}
-{% set sha256 = "ec1ba33eea701baca2c1607dac458152dc8323364a51fdef6babda2623413b04" %}
+{% set version = "0.53.2" %}
+{% set sha256 = "3e8f830f33184397c2eb0b651ec502adb63decb28978bdc84b3558d71284c21f" %}
 
 package:
-  name: "{{ name|lower }}"
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
@@ -17,7 +17,7 @@ source:
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: {{ PYTHON }} -m pip install . -vv
   noarch: python
 
 requirements:
@@ -38,8 +38,8 @@ test:
 about:
   home: http://mesonbuild.com
   license: Apache 2
-  license_file: '{{ environ["RECIPE_DIR"] }}/LICENSE'
-  summary: 'The Meson Build System'
+  license_file: {{ environ["RECIPE_DIR"] }}/LICENSE
+  summary: The Meson Build System
   doc_url: http://mesonbuild.com
   dev_url: https://github.com/mesonbuild/meson
 
