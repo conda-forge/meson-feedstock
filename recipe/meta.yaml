@@ -36,11 +36,11 @@ test:
     - meson --internal delsuffix . nomatchqqq  # test reexecution (GitHub issue #11)
 
 about:
-  home: http://mesonbuild.com
-  license: Apache 2
+  home: https://mesonbuild.com
+  license: Apache-2.0
   license_file: {{ environ["RECIPE_DIR"] }}/LICENSE
   summary: The Meson Build System
-  doc_url: http://mesonbuild.com
+  doc_url: https://mesonbuild.com
   dev_url: https://github.com/mesonbuild/meson
 
 extra:
