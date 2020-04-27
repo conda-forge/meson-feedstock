@@ -1,6 +1,6 @@
 {% set name = "meson" %}
-{% set version = "0.54.0" %}
-{% set sha256 = "dde5726d778112acbd4a67bb3633ab2ee75d33d1e879a6283a7b4a44c3363c27" %}
+{% set version = "0.54.1" %}
+{% set sha256 = "2f76fb4572762be13ee479292610091b4509af5788bcceb391fe222bcd0296dc" %}
 
 package:
   name: {{ name|lower }}
@@ -36,11 +36,11 @@ test:
     - meson --internal delsuffix . nomatchqqq  # test reexecution (GitHub issue #11)
 
 about:
-  home: http://mesonbuild.com
-  license: Apache 2
+  home: https://mesonbuild.com
+  license: Apache-2.0
   license_file: {{ environ["RECIPE_DIR"] }}/LICENSE
   summary: The Meson Build System
-  doc_url: http://mesonbuild.com
+  doc_url: https://mesonbuild.com
   dev_url: https://github.com/mesonbuild/meson
 
 extra:
