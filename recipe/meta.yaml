@@ -16,9 +16,12 @@ source:
     - windows-reexec.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
+  entry_points:
+    - meson = mesonbuild.mesonmain:main
+
 
 requirements:
   host:
@@ -49,3 +52,4 @@ extra:
     - dirmeier
     - pkgw
     - SoapZA
+    - wolfv
