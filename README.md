@@ -121,4 +121,5 @@ Feedstock Maintainers
 * [@SoapZA](https://github.com/SoapZA/)
 * [@dirmeier](https://github.com/dirmeier/)
 * [@pkgw](https://github.com/pkgw/)
+* [@wolfv](https://github.com/wolfv/)
 
