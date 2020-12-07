@@ -13,10 +13,9 @@ source:
   # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
   patches:
     - 0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
-    - windows-reexec.patch
 
 build:
-  number: 1
+  number: 2
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:
