@@ -1,4 +1,4 @@
-Patch updated from the below for Meson 0.55.0.
+conda-forge patch derived from the original below:
 
 From 4db4fd79d9bb2b98cea1117f22b6c97942ab2ecd Mon Sep 17 00:00:00 2001
 From: Eric Le Bihan <eric.le.bihan.dev@free.fr>
@@ -12,22 +12,22 @@ Signed-off-by: Peter Seiderer <ps.report@gmx.net>
  mesonbuild/minstall.py | 10 ++++++++--
  1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/mesonbuild/minstall.py b/mesonbuild/minstall.py
-index 0be01fe..71615b4 100644
---- a/mesonbuild/minstall.py
+diff --git a/mesonbuild/minstall.py_orig b/mesonbuild/minstall.py
+index 6c1810a..76c022f 100644
+--- a/mesonbuild/minstall.py_orig
 +++ b/mesonbuild/minstall.py
-@@ -512,8 +512,14 @@ class Installer:
+@@ -653,8 +653,14 @@ class Installer:
              if file_copied:
                  self.did_install_something = True
                  try:
--                    depfixer.fix_rpath(outname, t.rpath_dirs_to_remove, install_rpath, final_path,
--                                       install_name_mappings, verbose=False)
+-                    self.fix_rpath(outname, t.rpath_dirs_to_remove, install_rpath, final_path,
+-                                         install_name_mappings, verbose=False)
 +                    # Buildroot check-host-rpath script expects RPATH
 +                    # But if install_rpath is empty, it will be stripped.
 +                    # So, preserve it in this case.
 +                    if install_rpath:
-+                        depfixer.fix_rpath(outname, t.rpath_dirs_to_remove, install_rpath, final_path,
-+                                           install_name_mappings, verbose=False)
++                        self.fix_rpath(outname, t.rpath_dirs_to_remove, install_rpath, final_path,
++                                            install_name_mappings, verbose=False)
 +                    else:
 +                        print("Skipping RPATH fixing")
                  except SystemExit as e:
