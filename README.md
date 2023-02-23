@@ -149,7 +149,9 @@ Feedstock Maintainers
 
 * [@SoapZA](https://github.com/SoapZA/)
 * [@dirmeier](https://github.com/dirmeier/)
+* [@h-vetinari](https://github.com/h-vetinari/)
 * [@pkgw](https://github.com/pkgw/)
+* [@rgommers](https://github.com/rgommers/)
 * [@tschoonj](https://github.com/tschoonj/)
 * [@wolfv](https://github.com/wolfv/)
 
