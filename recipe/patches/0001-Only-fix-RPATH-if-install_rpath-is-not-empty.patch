@@ -1,0 +1,33 @@
+From 2c06bf5a82f2ff2c6d071ed168a779cce74e248f Mon Sep 17 00:00:00 2001
+From: Eric Le Bihan <eric.le.bihan.dev@free.fr>
+Date: Sat, 14 Jul 2018 11:18:45 +0200
+Subject: [PATCH 1/2] Only fix RPATH if install_rpath is not empty
+
+Signed-off-by: Eric Le Bihan <eric.le.bihan.dev@free.fr>
+[Fix: remove leftover from original/unconditional code]
+Signed-off-by: Peter Seiderer <ps.report@gmx.net>
+---
+ mesonbuild/minstall.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/mesonbuild/minstall.py b/mesonbuild/minstall.py
+index 49006917e..1a50ba88d 100644
+--- a/mesonbuild/minstall.py
++++ b/mesonbuild/minstall.py
+@@ -760,8 +760,14 @@ class Installer:
+             if file_copied:
+                 self.did_install_something = True
+                 try:
+-                    self.fix_rpath(outname, t.rpath_dirs_to_remove, install_rpath, final_path,
+-                                   install_name_mappings, verbose=False)
++                    # Buildroot check-host-rpath script expects RPATH
++                    # But if install_rpath is empty, it will be stripped.
++                    # So, preserve it in this case.
++                    if install_rpath:
++                        self.fix_rpath(outname, t.rpath_dirs_to_remove, install_rpath, final_path,
++                                       install_name_mappings, verbose=False)
++                    else:
++                        print("Skipping RPATH fixing")
+                 except SystemExit as e:
+                     if isinstance(e.code, int) and e.code == 0:
+                         pass
