@@ -1,9 +1,7 @@
-conda-forge patch derived from the original below:
-
-From 4db4fd79d9bb2b98cea1117f22b6c97942ab2ecd Mon Sep 17 00:00:00 2001
+From 2c06bf5a82f2ff2c6d071ed168a779cce74e248f Mon Sep 17 00:00:00 2001
 From: Eric Le Bihan <eric.le.bihan.dev@free.fr>
 Date: Sat, 14 Jul 2018 11:18:45 +0200
-Subject: [PATCH] Only fix RPATH if install_rpath is not empty
+Subject: [PATCH 1/2] Only fix RPATH if install_rpath is not empty
 
 Signed-off-by: Eric Le Bihan <eric.le.bihan.dev@free.fr>
 [Fix: remove leftover from original/unconditional code]
@@ -13,10 +11,10 @@ Signed-off-by: Peter Seiderer <ps.report@gmx.net>
  1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/mesonbuild/minstall.py b/mesonbuild/minstall.py
-index 7d0da13..31b9935 100644
+index 49006917e..1a50ba88d 100644
 --- a/mesonbuild/minstall.py
 +++ b/mesonbuild/minstall.py
-@@ -718,8 +718,14 @@ class Installer:
+@@ -760,8 +760,14 @@ class Installer:
              if file_copied:
                  self.did_install_something = True
                  try:

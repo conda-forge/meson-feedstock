@@ -1,0 +1,33 @@
+From ed1c5ad1cac7aeae7159a6e6d18c9d8a0caa04b7 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Thu, 21 Sep 2023 23:49:37 +1100
+Subject: [PATCH 2/2] minimal adaptations for llvm-flang
+
+---
+ mesonbuild/compilers/fortran.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
+index 7c836b74a..55d6b3e78 100644
+--- a/mesonbuild/compilers/fortran.py
++++ b/mesonbuild/compilers/fortran.py
+@@ -459,13 +459,18 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
+                                  is_cross, info, exe_wrapper, linker=linker,
+                                  full_version=full_version)
+         ClangCompiler.__init__(self, {})
+-        default_warn_args = ['-Minform=inform']
++        default_warn_args = []
+         self.warn_args = {'0': [],
+                           '1': default_warn_args,
+                           '2': default_warn_args,
+                           '3': default_warn_args,
+                           'everything': default_warn_args}
+ 
++    # llvm-flang doesn't support -module (even though classic flang did), see
++    # https://github.com/llvm/llvm-project/issues/66969
++    def get_module_outdir_args(self, path: str) -> T.List[str]:
++        return ['-module-dir', path]
++
+     def language_stdlib_only_link_flags(self, env: 'Environment') -> T.List[str]:
+         # We need to apply the search prefix here, as these link arguments may
+         # be passed to a different compiler with a different set of default
