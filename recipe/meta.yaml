@@ -7,9 +7,9 @@ package:
 source:
   url: https://pypi.io/packages/source/m/meson/meson-{{ version }}.tar.gz
   sha256: b1db3a153087549497ee52b1c938d2134e0338214fe14f7efd16fecd57b639f5
-  # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
   patches:
-    - 0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
+    # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
+    - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
 
 build:
   number: 0
