@@ -1,7 +1,7 @@
 From 35f010089df188a992c1e994905d130a3e259aff Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 21 Sep 2023 23:49:37 +1100
-Subject: [PATCH 2/2] minimal adaptations for llvm-flang
+Subject: [PATCH 2/3] minimal adaptations for llvm-flang
 
 ---
  mesonbuild/compilers/fortran.py | 9 +++++++--

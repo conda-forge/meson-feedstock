@@ -1,0 +1,23 @@
+From 974bc427642a6bcddacc63c4454d1c0a5d07f52e Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Mon, 25 Sep 2023 09:19:10 +1100
+Subject: [PATCH 3/3] mark gnu-like lld as not supporting rsp
+
+---
+ mesonbuild/linkers/linkers.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/mesonbuild/linkers/linkers.py b/mesonbuild/linkers/linkers.py
+index edd408572..32be7628b 100644
+--- a/mesonbuild/linkers/linkers.py
++++ b/mesonbuild/linkers/linkers.py
+@@ -891,6 +891,9 @@ class LLVMDynamicLinker(GnuLikeDynamicLinkerMixin, PosixDynamicLinkerMixin, Dyna
+     def get_thinlto_cache_args(self, path: str) -> T.List[str]:
+         return ['-Wl,--thinlto-cache-dir=' + path]
+ 
++    def can_linker_accept_rsp(self) -> bool:
++        return False
++
+     def get_win_subsystem_args(self, value: str) -> T.List[str]:
+         # lld does not support a numeric subsystem value
+         version = None
