@@ -11,9 +11,10 @@ source:
     # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
     - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
     - patches/0002-minimal-adaptations-for-llvm-flang.patch
+    - patches/0003-mark-gnu-like-lld-as-not-supporting-rsp.patch
 
 build:
-  number: 2
+  number: 3
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:
