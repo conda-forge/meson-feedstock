@@ -12,10 +12,10 @@ source:
     - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
     - patches/0002-minimal-adaptations-for-llvm-flang.patch
     - patches/0003-mark-gnu-like-lld-as-not-supporting-rsp.patch
-    - patches/0004-override-FlangCompiler.use_linker_args.patch
+    - patches/0004-detect-windows-linkers-for-flang-in-detect_fortran_c.patch
 
 build:
-  number: 5
+  number: 6
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:
