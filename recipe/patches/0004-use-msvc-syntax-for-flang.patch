@@ -1,0 +1,24 @@
+From 3790454592aef67c625bc8e3aaa1b4b8c8d2c188 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Thu, 28 Sep 2023 22:50:24 +1100
+Subject: [PATCH 4/4] use msvc syntax for flang
+
+---
+ mesonbuild/compilers/fortran.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
+index 9915f6912..de1fb9de0 100644
+--- a/mesonbuild/compilers/fortran.py
++++ b/mesonbuild/compilers/fortran.py
+@@ -471,6 +471,10 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
+     def get_module_outdir_args(self, path: str) -> T.List[str]:
+         return ['-module-dir', path]
+ 
++    # try using flang (based on clang-cl) with msvc syntax
++    def get_argument_syntax(self) -> str:
++        return 'msvc'
++
+     def language_stdlib_only_link_flags(self, env: 'Environment') -> T.List[str]:
+         # We need to apply the search prefix here, as these link arguments may
+         # be passed to a different compiler with a different set of default
