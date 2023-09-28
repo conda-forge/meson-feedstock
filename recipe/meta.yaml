@@ -12,10 +12,10 @@ source:
     - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
     - patches/0002-minimal-adaptations-for-llvm-flang.patch
     - patches/0003-mark-gnu-like-lld-as-not-supporting-rsp.patch
-    - patches/0004-use-msvc-syntax-for-flang.patch
+    - patches/0004-override-FlangCompiler.use_linker_args.patch
 
 build:
-  number: 4
+  number: 5
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:
