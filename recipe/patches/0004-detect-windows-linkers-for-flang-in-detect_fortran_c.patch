@@ -1,4 +1,4 @@
-From 4736c41b6e01a8da9850d3ce2624943e5105b9d5 Mon Sep 17 00:00:00 2001
+From 937e033d3c095ac658d6221a3d3fda128b0e81a5 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Fri, 29 Sep 2023 08:59:34 +1100
 Subject: [PATCH 4/4] detect windows linkers for flang in
