@@ -1,0 +1,22 @@
+From 6f12f7c11eaa998368323ebc56542b2493cf0ff1 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Fri, 2 Feb 2024 14:38:22 +0100
+Subject: [PATCH 4/4] fix UnboundLocalError if guess_win_linker fails in
+ detect_fortran_compiler
+
+---
+ mesonbuild/compilers/detect.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/mesonbuild/compilers/detect.py b/mesonbuild/compilers/detect.py
+index 888e65bd8..22bd32e6a 100644
+--- a/mesonbuild/compilers/detect.py
++++ b/mesonbuild/compilers/detect.py
+@@ -781,6 +781,7 @@ def detect_fortran_compiler(env: 'Environment', for_machine: MachineChoice) -> C
+ 
+             if 'flang' in out or 'clang' in out:
+                 cls = fortran.FlangFortranCompiler
++                linker = None
+                 if 'windows' in out or env.machines[for_machine].is_windows():
+                     # If we're in a MINGW context this actually will use a gnu
+                     # style ld, but for flang on "real" windows we'll use

@@ -1,7 +1,7 @@
-From 669b0f2484474de9d8108c2db340bae2d6aa3936 Mon Sep 17 00:00:00 2001
+From ff0523a31f85255aa54e110609859220971c1c9c Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Fri, 29 Sep 2023 08:59:34 +1100
-Subject: [PATCH 3/3] detect windows linkers for flang in
+Subject: [PATCH 3/4] detect windows linkers for flang in
  detect_fortran_compiler
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH 3/3] detect windows linkers for flang in
  1 file changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/mesonbuild/compilers/detect.py b/mesonbuild/compilers/detect.py
-index 58d6f4e64..df4b2cc36 100644
+index 0bfedd139..888e65bd8 100644
 --- a/mesonbuild/compilers/detect.py
 +++ b/mesonbuild/compilers/detect.py
 @@ -781,8 +781,20 @@ def detect_fortran_compiler(env: 'Environment', for_machine: MachineChoice) -> C

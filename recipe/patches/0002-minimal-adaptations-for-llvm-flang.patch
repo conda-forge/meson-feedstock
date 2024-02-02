@@ -1,14 +1,14 @@
-From 3e8dbaded0cbc450686c3a8c53b6bda16643e46a Mon Sep 17 00:00:00 2001
+From f4d7b36fb9b1bc6b7a661e09411c8858eab5a09f Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 21 Sep 2023 23:49:37 +1100
-Subject: [PATCH 2/3] minimal adaptations for llvm-flang
+Subject: [PATCH 2/4] minimal adaptations for llvm-flang
 
 ---
  mesonbuild/compilers/fortran.py | 9 +++++++--
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
-index 7c836b74a..9915f6912 100644
+index a80fdff5f..81bf41a65 100644
 --- a/mesonbuild/compilers/fortran.py
 +++ b/mesonbuild/compilers/fortran.py
 @@ -459,13 +459,18 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
