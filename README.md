@@ -36,14 +36,14 @@ Current release info
 Installing meson
 ================
 
-Installing `meson` from the `conda-forge` channel can be achieved by adding `conda-forge` to your channels with:
+Installing `meson` from the `conda-forge/label/meson_dev` channel can be achieved by adding `conda-forge/label/meson_dev` to your channels with:
 
 ```
-conda config --add channels conda-forge
+conda config --add channels conda-forge/label/meson_dev
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `meson` can be installed with `conda`:
+Once the `conda-forge/label/meson_dev` channel has been enabled, `meson` can be installed with `conda`:
 
 ```
 conda install meson
@@ -58,26 +58,26 @@ mamba install meson
 It is possible to list all of the versions of `meson` available on your platform with `conda`:
 
 ```
-conda search meson --channel conda-forge
+conda search meson --channel conda-forge/label/meson_dev
 ```
 
 or with `mamba`:
 
 ```
-mamba search meson --channel conda-forge
+mamba search meson --channel conda-forge/label/meson_dev
 ```
 
 Alternatively, `mamba repoquery` may provide more information:
 
 ```
 # Search all versions available on your platform:
-mamba repoquery search meson --channel conda-forge
+mamba repoquery search meson --channel conda-forge/label/meson_dev
 
 # List packages depending on `meson`:
-mamba repoquery whoneeds meson --channel conda-forge
+mamba repoquery whoneeds meson --channel conda-forge/label/meson_dev
 
 # List dependencies of `meson`:
-mamba repoquery depends meson --channel conda-forge
+mamba repoquery depends meson --channel conda-forge/label/meson_dev
 ```
 
 
