@@ -13,6 +13,8 @@ source:
     - patches/0002-minimal-adaptations-for-llvm-flang.patch
     # backport https://github.com/mesonbuild/meson/pull/12305
     - patches/0003-detect-windows-linkers-for-flang-in-detect_fortran_c.patch
+    # backport https://github.com/mesonbuild/meson/pull/12803
+    - patches/0004-fix-UnboundLocalError-if-guess_win_linker-fails-in-d.patch
 
 build:
   number: 1
