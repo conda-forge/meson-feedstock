@@ -1,15 +1,12 @@
-{% set name = "meson" %}
 {% set version = "1.4.0" %}
-{% set sha256 = "8fd6630c25c27f1489a8a0392b311a60481a3c161aa699b330e25935b750138d" %}
 
 package:
-  name: {{ name|lower }}
+  name: meson
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  url: https://pypi.io/packages/source/m/meson/meson-{{ version }}.tar.gz
+  sha256: 8fd6630c25c27f1489a8a0392b311a60481a3c161aa699b330e25935b750138d
   # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
   patches:
     - 0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
