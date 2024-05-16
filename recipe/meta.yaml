@@ -14,7 +14,7 @@ source:
     - patches/0003-override-flags-not-known-by-flang.patch
 
 build:
-  number: 3
+  number: 4
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:
