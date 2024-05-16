@@ -1,4 +1,4 @@
-From 1124fc8c56b9ddba7c4e83a5f83c9684764f9bd4 Mon Sep 17 00:00:00 2001
+From 0f2324c89d8ff443135527ccde3066464978800d Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 16 May 2024 15:58:16 +1100
 Subject: [PATCH 3/3] override flags not known by flang
@@ -8,7 +8,7 @@ Subject: [PATCH 3/3] override flags not known by flang
  1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
-index b9185efbe..a8188af85 100644
+index b9185efbe..943b61bc9 100644
 --- a/mesonbuild/compilers/fortran.py
 +++ b/mesonbuild/compilers/fortran.py
 @@ -13,7 +13,7 @@ from .compilers import (
@@ -34,7 +34,7 @@ index b9185efbe..a8188af85 100644
 +    def gnu_symbol_visibility_args(self, vistype: str) -> T.List[str]:
 +        if vistype == 'inlineshidden' and self.language not in {'cpp', 'objcpp'}:
 +            vistype = 'hidden'
-+        return (['-Xclang'] + gnu_symbol_visibility_args[vistype]) if vistype else []
++        return (['-Xflang'] + gnu_symbol_visibility_args[vistype]) if vistype else []
 +
      # llvm-flang doesn't support -module (even though classic flang did), see
      # https://github.com/llvm/llvm-project/issues/66969
