@@ -1,7 +1,7 @@
 From aef3092b6a672dfa3b922cbb7aa705a40c4c2a4f Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 16 May 2024 15:58:16 +1100
-Subject: [PATCH 3/3] override flags not known by flang
+Subject: [PATCH 3/4] override flags not known by flang
 
 ---
  mesonbuild/compilers/fortran.py | 14 +++++++++++++-
