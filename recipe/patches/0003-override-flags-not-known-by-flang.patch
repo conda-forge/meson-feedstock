@@ -1,17 +1,26 @@
-From 65920c096e8397e490a62780c106b68087e7abfd Mon Sep 17 00:00:00 2001
+From 1124fc8c56b9ddba7c4e83a5f83c9684764f9bd4 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Thu, 16 May 2024 15:58:16 +1100
 Subject: [PATCH 3/3] override flags not known by flang
 
 ---
- mesonbuild/compilers/fortran.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ mesonbuild/compilers/fortran.py | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
-index b9185efbe..d9a63010a 100644
+index b9185efbe..a8188af85 100644
 --- a/mesonbuild/compilers/fortran.py
 +++ b/mesonbuild/compilers/fortran.py
-@@ -447,6 +447,13 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
+@@ -13,7 +13,7 @@ from .compilers import (
+     CompileCheckMode,
+ )
+ from .mixins.clike import CLikeCompiler
+-from .mixins.gnu import GnuCompiler,  gnu_optimization_args
++from .mixins.gnu import GnuCompiler,  gnu_optimization_args, gnu_symbol_visibility_args
+ from .mixins.intel import IntelGnuLikeCompiler, IntelVisualStudioLikeCompiler
+ from .mixins.clang import ClangCompiler
+ from .mixins.elbrus import ElbrusCompiler
+@@ -447,6 +447,18 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
                            '3': default_warn_args,
                            'everything': default_warn_args}
  
@@ -21,6 +30,11 @@ index b9185efbe..d9a63010a 100644
 +
 +    def get_dependency_gen_args(self, outtarget: str, outfile: str) -> T.List[str]:
 +        return []
++
++    def gnu_symbol_visibility_args(self, vistype: str) -> T.List[str]:
++        if vistype == 'inlineshidden' and self.language not in {'cpp', 'objcpp'}:
++            vistype = 'hidden'
++        return (['-Xclang'] + gnu_symbol_visibility_args[vistype]) if vistype else []
 +
      # llvm-flang doesn't support -module (even though classic flang did), see
      # https://github.com/llvm/llvm-project/issues/66969
