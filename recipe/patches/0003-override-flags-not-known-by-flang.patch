@@ -1,0 +1,27 @@
+From 65920c096e8397e490a62780c106b68087e7abfd Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Thu, 16 May 2024 15:58:16 +1100
+Subject: [PATCH 3/3] override flags not known by flang
+
+---
+ mesonbuild/compilers/fortran.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
+index b9185efbe..d9a63010a 100644
+--- a/mesonbuild/compilers/fortran.py
++++ b/mesonbuild/compilers/fortran.py
+@@ -447,6 +447,13 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
+                           '3': default_warn_args,
+                           'everything': default_warn_args}
+ 
++    def get_colorout_args(self, colortype: str) -> T.List[str]:
++        # clang's -fdiagnostics-color=... isn't known by flang (as of v18)
++        return []
++
++    def get_dependency_gen_args(self, outtarget: str, outfile: str) -> T.List[str]:
++        return []
++
+     # llvm-flang doesn't support -module (even though classic flang did), see
+     # https://github.com/llvm/llvm-project/issues/66969
+     def get_module_outdir_args(self, path: str) -> T.List[str]:

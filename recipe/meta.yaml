@@ -11,13 +11,10 @@ source:
     # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
     - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
     - patches/0002-minimal-adaptations-for-llvm-flang.patch
-    # backport https://github.com/mesonbuild/meson/pull/12305
-    - patches/0003-detect-windows-linkers-for-flang-in-detect_fortran_c.patch
-    # backport https://github.com/mesonbuild/meson/pull/12803
-    - patches/0004-fix-UnboundLocalError-if-guess_win_linker-fails-in-d.patch
+    - patches/0003-override-flags-not-known-by-flang.patch
 
 build:
-  number: 1
+  number: 2
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:
