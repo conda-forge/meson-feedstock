@@ -1,4 +1,4 @@
-From dfe32423ea4b9c09362afc4ea3b5c7671af65038 Mon Sep 17 00:00:00 2001
+From 24a9111f2999bae4df129c52a02917d2df39885c Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Fri, 17 May 2024 10:33:54 +1100
 Subject: [PATCH 4/4] explicitly link Fortran_main
@@ -8,7 +8,7 @@ Subject: [PATCH 4/4] explicitly link Fortran_main
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
-index d9471830d..f9e15cf3d 100644
+index d9471830d..db7fd998c 100644
 --- a/mesonbuild/compilers/fortran.py
 +++ b/mesonbuild/compilers/fortran.py
 @@ -473,7 +473,9 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
@@ -18,7 +18,7 @@ index d9471830d..f9e15cf3d 100644
 -        return search_dirs + ['-lFortranRuntime', '-lFortranDecimal']
 +        # explicitly link to Fortran_main due to
 +        # https://github.com/llvm/llvm-project/commit/9d6837d595719904720e5ff68ec1f1a2665bdc2f
-+        return search_dirs + ['-lFortranRuntime', '-lFortranDecimal', '-lFortran_main']
++        return search_dirs + ['-lFortranRuntime', '-lFortranDecimal', '-lFortran_main.a']
  
  class ArmLtdFlangFortranCompiler(FlangFortranCompiler):
  
