@@ -15,7 +15,7 @@ source:
     - patches/0004-explicitly-link-Fortran_main.patch
 
 build:
-  number: 7
+  number: 8
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:

@@ -1,24 +1,26 @@
-From 24a9111f2999bae4df129c52a02917d2df39885c Mon Sep 17 00:00:00 2001
+From 102330777016a846481f8da70dcc195dabbc96f8 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Fri, 17 May 2024 10:33:54 +1100
 Subject: [PATCH 4/4] explicitly link Fortran_main
 
 ---
- mesonbuild/compilers/fortran.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ mesonbuild/compilers/fortran.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
-index d9471830d..db7fd998c 100644
+index d9471830d..86a41808a 100644
 --- a/mesonbuild/compilers/fortran.py
 +++ b/mesonbuild/compilers/fortran.py
-@@ -473,7 +473,9 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
+@@ -473,7 +473,11 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
          search_dirs: T.List[str] = []
          for d in self.get_compiler_dirs(env, 'libraries'):
              search_dirs.append(f'-L{d}')
 -        return search_dirs + ['-lFortranRuntime', '-lFortranDecimal']
 +        # explicitly link to Fortran_main due to
 +        # https://github.com/llvm/llvm-project/commit/9d6837d595719904720e5ff68ec1f1a2665bdc2f
-+        return search_dirs + ['-lFortranRuntime', '-lFortranDecimal', '-lFortran_main.a']
++        # note that this changed again in flang 19 with
++        # https://github.com/llvm/llvm-project/commit/8d5386669ed63548daf1bee415596582d6d78d7d
++        return search_dirs + ['-lFortranRuntime', '-lFortranDecimal', '/WHOLEARCHIVE:Fortran_main']
  
  class ArmLtdFlangFortranCompiler(FlangFortranCompiler):
  
