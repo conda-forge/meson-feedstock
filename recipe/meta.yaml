@@ -10,9 +10,8 @@ source:
   patches:
     # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
     - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
-    - patches/0002-minimal-adaptations-for-llvm-flang.patch
-    - patches/0003-override-flags-not-known-by-flang.patch
-    - patches/0004-explicitly-link-Fortran_main.patch
+    # backport https://github.com/mesonbuild/meson/pull/13323
+    - patches/0002-WIP-add-initial-support-for-llvm-flang.patch
 
 build:
   number: 0
