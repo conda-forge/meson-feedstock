@@ -1,4 +1,4 @@
-{% set version = "1.4.0" %}
+{% set version = "1.5.0rc1" %}
 
 package:
   name: meson
@@ -6,16 +6,15 @@ package:
 
 source:
   url: https://pypi.io/packages/source/m/meson/meson-{{ version }}.tar.gz
-  sha256: 8fd6630c25c27f1489a8a0392b311a60481a3c161aa699b330e25935b750138d
+  sha256: 601e4cf0db75372a8e65b95c958dd7336f1af85d4dfd06e8d608c23ea68c3e08
   patches:
     # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
     - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
-    - patches/0002-minimal-adaptations-for-llvm-flang.patch
-    - patches/0003-override-flags-not-known-by-flang.patch
-    - patches/0004-explicitly-link-Fortran_main.patch
+    # backport https://github.com/mesonbuild/meson/pull/13323
+    - patches/0002-WIP-add-initial-support-for-llvm-flang.patch
 
 build:
-  number: 9
+  number: 0
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:
