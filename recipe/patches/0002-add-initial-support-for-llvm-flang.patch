@@ -1,69 +1,14 @@
-From f6ad51c8324eb6f4402c459eed62bb77cda9b4c3 Mon Sep 17 00:00:00 2001
+From 4f108e0f58bf781c3ccecd3f63550e578af70441 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Fri, 14 Jun 2024 23:59:41 +1100
 Subject: [PATCH 2/2] add initial support for llvm-flang
 
 ---
- docs/markdown/Contributing.md        |  4 +-
- docs/markdown/Reference-tables.md    |  3 +-
- docs/markdown/snippets/llvm_flang.md |  9 +++++
- mesonbuild/compilers/detect.py       | 28 ++++++++++++--
- mesonbuild/compilers/fortran.py      | 56 +++++++++++++++++++++++++++-
- run_project_tests.py                 |  1 +
- 6 files changed, 92 insertions(+), 9 deletions(-)
- create mode 100644 docs/markdown/snippets/llvm_flang.md
+ mesonbuild/compilers/detect.py  | 28 ++++++++++++++---
+ mesonbuild/compilers/fortran.py | 56 +++++++++++++++++++++++++++++++--
+ run_project_tests.py            |  1 +
+ 3 files changed, 79 insertions(+), 6 deletions(-)
 
-diff --git a/docs/markdown/Contributing.md b/docs/markdown/Contributing.md
-index 731abc87d..8f796ab65 100644
---- a/docs/markdown/Contributing.md
-+++ b/docs/markdown/Contributing.md
-@@ -150,8 +150,8 @@ Subsets of project tests can be selected with
- time when only a certain part of Meson is being tested.
- For example, a useful and easy contribution to Meson is making
- sure the full set of compilers is supported. One could for example test
--various Fortran compilers by setting `FC=ifort` or `FC=flang` or similar
--with `./run_project_test.py --only fortran`.
-+various Fortran compilers by setting `FC=ifort`, `FC=flang` or
-+`FC=flang-new` or similar with `./run_project_test.py --only fortran`.
- Some families of tests require a particular backend to run.
- For example, all the CUDA project tests run and pass on Windows via
- `./run_project_tests.py --only cuda --backend ninja`
-diff --git a/docs/markdown/Reference-tables.md b/docs/markdown/Reference-tables.md
-index 2357ff459..67eccb4a2 100644
---- a/docs/markdown/Reference-tables.md
-+++ b/docs/markdown/Reference-tables.md
-@@ -15,7 +15,7 @@ These are return values of the `get_id` (Compiler family) and
- | clang-cl  | The Clang compiler (MSVC compatible driver) | msvc |
- | dmd       | D lang reference compiler        |                 |
- | emscripten| Emscripten WASM compiler         |                 |
--| flang     | Flang Fortran compiler           |                 |
-+| flang     | Classic Flang Fortran compiler   |                 |
- | g95       | The G95 Fortran compiler         |                 |
- | gcc       | The GNU Compiler Collection      | gcc             |
- | intel     | Intel compiler (Linux and Mac)   | gcc             |
-@@ -24,6 +24,7 @@ These are return values of the `get_id` (Compiler family) and
- | intel-llvm-cl | Intel oneAPI LLVM-based compiler (Windows)  | msvc            |
- | lcc       | Elbrus C/C++/Fortran Compiler    |                 |
- | llvm      | LLVM-based compiler (Swift, D)   |                 |
-+| llvm-flang| Flang Fortran compiler (LLVM-based) |              |
- | mono      | Xamarin C# compiler              |                 |
- | mwccarm   | Metrowerks C/C++ compiler for Embedded ARM         |                 |
- | mwcceppc  | Metrowerks C/C++ compiler for Embedded PowerPC     |                 |
-diff --git a/docs/markdown/snippets/llvm_flang.md b/docs/markdown/snippets/llvm_flang.md
-new file mode 100644
-index 000000000..4575fe054
---- /dev/null
-+++ b/docs/markdown/snippets/llvm_flang.md
-@@ -0,0 +1,9 @@
-+## Support for LLVM-based flang compiler
-+
-+Added basic handling for the [flang](https://flang.llvm.org/docs/) compiler
-+that's now part of LLVM. It is the successor of another compiler named
-+[flang](https://github.com/flang-compiler/flang) by largely the same
-+group of developers, who now refer to the latter as "classic flang".
-+
-+Meson already supports classic flang, and the LLVM-based flang now
-+uses the compiler-id `'llvm-flang'`.
 diff --git a/mesonbuild/compilers/detect.py b/mesonbuild/compilers/detect.py
 index 3a678211c..c796c2f38 100644
 --- a/mesonbuild/compilers/detect.py
