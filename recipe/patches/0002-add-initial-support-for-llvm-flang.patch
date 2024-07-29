@@ -1,0 +1,222 @@
+From f6ad51c8324eb6f4402c459eed62bb77cda9b4c3 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Fri, 14 Jun 2024 23:59:41 +1100
+Subject: [PATCH 2/2] add initial support for llvm-flang
+
+---
+ docs/markdown/Contributing.md        |  4 +-
+ docs/markdown/Reference-tables.md    |  3 +-
+ docs/markdown/snippets/llvm_flang.md |  9 +++++
+ mesonbuild/compilers/detect.py       | 28 ++++++++++++--
+ mesonbuild/compilers/fortran.py      | 56 +++++++++++++++++++++++++++-
+ run_project_tests.py                 |  1 +
+ 6 files changed, 92 insertions(+), 9 deletions(-)
+ create mode 100644 docs/markdown/snippets/llvm_flang.md
+
+diff --git a/docs/markdown/Contributing.md b/docs/markdown/Contributing.md
+index 731abc87d..8f796ab65 100644
+--- a/docs/markdown/Contributing.md
++++ b/docs/markdown/Contributing.md
+@@ -150,8 +150,8 @@ Subsets of project tests can be selected with
+ time when only a certain part of Meson is being tested.
+ For example, a useful and easy contribution to Meson is making
+ sure the full set of compilers is supported. One could for example test
+-various Fortran compilers by setting `FC=ifort` or `FC=flang` or similar
+-with `./run_project_test.py --only fortran`.
++various Fortran compilers by setting `FC=ifort`, `FC=flang` or
++`FC=flang-new` or similar with `./run_project_test.py --only fortran`.
+ Some families of tests require a particular backend to run.
+ For example, all the CUDA project tests run and pass on Windows via
+ `./run_project_tests.py --only cuda --backend ninja`
+diff --git a/docs/markdown/Reference-tables.md b/docs/markdown/Reference-tables.md
+index 2357ff459..67eccb4a2 100644
+--- a/docs/markdown/Reference-tables.md
++++ b/docs/markdown/Reference-tables.md
+@@ -15,7 +15,7 @@ These are return values of the `get_id` (Compiler family) and
+ | clang-cl  | The Clang compiler (MSVC compatible driver) | msvc |
+ | dmd       | D lang reference compiler        |                 |
+ | emscripten| Emscripten WASM compiler         |                 |
+-| flang     | Flang Fortran compiler           |                 |
++| flang     | Classic Flang Fortran compiler   |                 |
+ | g95       | The G95 Fortran compiler         |                 |
+ | gcc       | The GNU Compiler Collection      | gcc             |
+ | intel     | Intel compiler (Linux and Mac)   | gcc             |
+@@ -24,6 +24,7 @@ These are return values of the `get_id` (Compiler family) and
+ | intel-llvm-cl | Intel oneAPI LLVM-based compiler (Windows)  | msvc            |
+ | lcc       | Elbrus C/C++/Fortran Compiler    |                 |
+ | llvm      | LLVM-based compiler (Swift, D)   |                 |
++| llvm-flang| Flang Fortran compiler (LLVM-based) |              |
+ | mono      | Xamarin C# compiler              |                 |
+ | mwccarm   | Metrowerks C/C++ compiler for Embedded ARM         |                 |
+ | mwcceppc  | Metrowerks C/C++ compiler for Embedded PowerPC     |                 |
+diff --git a/docs/markdown/snippets/llvm_flang.md b/docs/markdown/snippets/llvm_flang.md
+new file mode 100644
+index 000000000..4575fe054
+--- /dev/null
++++ b/docs/markdown/snippets/llvm_flang.md
+@@ -0,0 +1,9 @@
++## Support for LLVM-based flang compiler
++
++Added basic handling for the [flang](https://flang.llvm.org/docs/) compiler
++that's now part of LLVM. It is the successor of another compiler named
++[flang](https://github.com/flang-compiler/flang) by largely the same
++group of developers, who now refer to the latter as "classic flang".
++
++Meson already supports classic flang, and the LLVM-based flang now
++uses the compiler-id `'llvm-flang'`.
+diff --git a/mesonbuild/compilers/detect.py b/mesonbuild/compilers/detect.py
+index 3a678211c..c796c2f38 100644
+--- a/mesonbuild/compilers/detect.py
++++ b/mesonbuild/compilers/detect.py
+@@ -45,7 +45,8 @@ if is_windows():
+     defaults['c'] = ['icl', 'cl', 'cc', 'gcc', 'clang', 'clang-cl', 'pgcc']
+     # There is currently no pgc++ for Windows, only for  Mac and Linux.
+     defaults['cpp'] = ['icl', 'cl', 'c++', 'g++', 'clang++', 'clang-cl']
+-    defaults['fortran'] = ['ifort', 'gfortran', 'flang', 'pgfortran', 'g95']
++    # the binary flang-new will be renamed to flang in the foreseeable future
++    defaults['fortran'] = ['ifort', 'gfortran', 'flang-new', 'flang', 'pgfortran', 'g95']
+     defaults['objc'] = ['clang-cl', 'gcc']
+     defaults['objcpp'] = ['clang-cl', 'g++']
+     defaults['cs'] = ['csc', 'mcs']
+@@ -60,7 +61,8 @@ else:
+         defaults['cpp'] = ['c++', 'g++', 'clang++', 'nvc++', 'pgc++', 'icpc', 'icpx']
+         defaults['objc'] = ['clang', 'gcc']
+         defaults['objcpp'] = ['clang++', 'g++']
+-    defaults['fortran'] = ['gfortran', 'flang', 'nvfortran', 'pgfortran', 'ifort', 'ifx', 'g95']
++    # the binary flang-new will be renamed to flang in the foreseeable future
++    defaults['fortran'] = ['gfortran', 'flang-new', 'flang', 'nvfortran', 'pgfortran', 'ifort', 'ifx', 'g95']
+     defaults['cs'] = ['mcs', 'csc']
+ defaults['d'] = ['ldc2', 'ldc', 'gdc', 'dmd']
+ defaults['java'] = ['javac']
+@@ -659,6 +661,13 @@ def detect_fortran_compiler(env: 'Environment', for_machine: MachineChoice) -> C
+     info = env.machines[for_machine]
+     cls: T.Type[FortranCompiler]
+     for compiler in compilers:
++        # capture help text for possible fallback
++        try:
++            _, help_out, _ = Popen_safe_logged(compiler + ['--help'], msg='Detecting compiler via')
++        except OSError as e:
++            popen_exceptions[join_args(compiler + ['--help'])] = e
++            help_out = ''
++
+         for arg in ['--version', '-V']:
+             try:
+                 p, out, err = Popen_safe_logged(compiler + [arg], msg='Detecting compiler via')
+@@ -776,8 +785,7 @@ def detect_fortran_compiler(env: 'Environment', for_machine: MachineChoice) -> C
+                     compiler, version, for_machine, is_cross, info,
+                     full_version=full_version, linker=linker)
+ 
+-            if 'flang' in out or 'clang' in out:
+-                cls = fortran.FlangFortranCompiler
++            def _get_linker_try_windows(cls: T.Type['Compiler']) -> T.Optional['DynamicLinker']:
+                 linker = None
+                 if 'windows' in out or env.machines[for_machine].is_windows():
+                     # If we're in a MINGW context this actually will use a gnu
+@@ -793,6 +801,18 @@ def detect_fortran_compiler(env: 'Environment', for_machine: MachineChoice) -> C
+                 if linker is None:
+                     linker = guess_nix_linker(env, compiler, cls,
+                                               version, for_machine)
++                return linker
++
++            if 'flang-new' in out or 'flang LLVM compiler' in help_out:
++                cls = fortran.LlvmFlangFortranCompiler
++                linker = _get_linker_try_windows(cls)
++                return cls(
++                    compiler, version, for_machine, is_cross, info,
++                    full_version=full_version, linker=linker)
++
++            if 'flang' in out or 'clang' in out:
++                cls = fortran.ClassicFlangFortranCompiler
++                linker = _get_linker_try_windows(cls)
+                 return cls(
+                     compiler, version, for_machine, is_cross, info,
+                     full_version=full_version, linker=linker)
+diff --git a/mesonbuild/compilers/fortran.py b/mesonbuild/compilers/fortran.py
+index 3e332381d..90dc19c2f 100644
+--- a/mesonbuild/compilers/fortran.py
++++ b/mesonbuild/compilers/fortran.py
+@@ -430,7 +430,7 @@ class NvidiaHPC_FortranCompiler(PGICompiler, FortranCompiler):
+                           'everything': default_warn_args + ['-Mdclchk']}
+ 
+ 
+-class FlangFortranCompiler(ClangCompiler, FortranCompiler):
++class ClassicFlangFortranCompiler(ClangCompiler, FortranCompiler):
+ 
+     id = 'flang'
+ 
+@@ -460,10 +460,62 @@ class FlangFortranCompiler(ClangCompiler, FortranCompiler):
+             search_dirs.append(f'-L{d}')
+         return search_dirs + ['-lflang', '-lpgmath']
+ 
+-class ArmLtdFlangFortranCompiler(FlangFortranCompiler):
++
++class ArmLtdFlangFortranCompiler(ClassicFlangFortranCompiler):
+ 
+     id = 'armltdflang'
+ 
++
++class LlvmFlangFortranCompiler(ClangCompiler, FortranCompiler):
++
++    id = 'llvm-flang'
++
++    def __init__(self, exelist: T.List[str], version: str, for_machine: MachineChoice, is_cross: bool,
++                 info: 'MachineInfo', linker: T.Optional['DynamicLinker'] = None,
++                 full_version: T.Optional[str] = None):
++        FortranCompiler.__init__(self, exelist, version, for_machine,
++                                 is_cross, info, linker=linker,
++                                 full_version=full_version)
++        ClangCompiler.__init__(self, {})
++        default_warn_args = ['-Wall']
++        self.warn_args = {'0': [],
++                          '1': default_warn_args,
++                          '2': default_warn_args,
++                          '3': default_warn_args,
++                          'everything': default_warn_args}
++
++    def get_colorout_args(self, colortype: str) -> T.List[str]:
++        # not yet supported, see https://github.com/llvm/llvm-project/issues/89888
++        return []
++
++    def get_dependency_gen_args(self, outtarget: str, outfile: str) -> T.List[str]:
++        # not yet supported, see https://github.com/llvm/llvm-project/issues/89888
++        return []
++
++    def get_module_outdir_args(self, path: str) -> T.List[str]:
++        # different syntax from classic flang (which supported `-module`), see
++        # https://github.com/llvm/llvm-project/issues/66969
++        return ['-module-dir', path]
++
++    def gnu_symbol_visibility_args(self, vistype: str) -> T.List[str]:
++        # flang doesn't support symbol visibility flag yet, see
++        # https://github.com/llvm/llvm-project/issues/92459
++        return []
++
++    def language_stdlib_only_link_flags(self, env: 'Environment') -> T.List[str]:
++        # matching setup from ClassicFlangFortranCompiler
++        search_dirs: T.List[str] = []
++        for d in self.get_compiler_dirs(env, 'libraries'):
++            search_dirs.append(f'-L{d}')
++        # does not automatically link to Fortran_main anymore after
++        # https://github.com/llvm/llvm-project/commit/9d6837d595719904720e5ff68ec1f1a2665bdc2f
++        # note that this changed again in flang 19 with
++        # https://github.com/llvm/llvm-project/commit/8d5386669ed63548daf1bee415596582d6d78d7d;
++        # it seems flang 18 doesn't work if something accidentally includes a program unit, see
++        # https://github.com/llvm/llvm-project/issues/92496
++        return search_dirs + ['-lFortranRuntime', '-lFortranDecimal']
++
++
+ class Open64FortranCompiler(FortranCompiler):
+ 
+     id = 'open64'
+diff --git a/run_project_tests.py b/run_project_tests.py
+index 974273fc7..2203da874 100755
+--- a/run_project_tests.py
++++ b/run_project_tests.py
+@@ -1080,6 +1080,7 @@ def detect_tests_to_run(only: T.Dict[str, T.List[str]], use_tmp: bool) -> T.List
+     """
+ 
+     skip_fortran = not(shutil.which('gfortran') or
++                       shutil.which('flang-new') or
+                        shutil.which('flang') or
+                        shutil.which('pgfortran') or
+                        shutil.which('nagfor') or
