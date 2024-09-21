@@ -1,4 +1,4 @@
-From 35ef14a3f668126059d7502f862cbf96dde09150 Mon Sep 17 00:00:00 2001
+From 7f202f441e2bce7c97b48d6c51fcea18f5eae0ec Mon Sep 17 00:00:00 2001
 From: Eric Le Bihan <eric.le.bihan.dev@free.fr>
 Date: Sat, 14 Jul 2018 11:18:45 +0200
 Subject: [PATCH 1/2] Only fix RPATH if install_rpath is not empty
