@@ -10,9 +10,12 @@ source:
   patches:
     # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
     - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
+    # revert https://github.com/mesonbuild/meson/commit/5399d3de02cb0f92e334f3f5f61cf0aa8521ac63
+    # as exploratory fix for https://github.com/mesonbuild/meson/issues/13772
+    - patches/0002-Revert-compilers-detect-remove-unsupported-cpp-flag-.patch
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv
   noarch: python
   entry_points:

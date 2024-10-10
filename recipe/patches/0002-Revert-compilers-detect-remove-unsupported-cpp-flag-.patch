@@ -1,0 +1,34 @@
+From c73ce4728ecea8aba0d265b78ad62ba491c51481 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Thu, 10 Oct 2024 18:24:21 +1100
+Subject: [PATCH 2/2] Revert "compilers/detect: remove unsupported -cpp flag
+ for Clang preprocessor detection"
+
+This reverts commit 5399d3de02cb0f92e334f3f5f61cf0aa8521ac63.
+---
+ mesonbuild/compilers/detect.py | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/mesonbuild/compilers/detect.py b/mesonbuild/compilers/detect.py
+index 7542fb628..41ecf2528 100644
+--- a/mesonbuild/compilers/detect.py
++++ b/mesonbuild/compilers/detect.py
+@@ -1436,12 +1436,13 @@ def _get_clang_compiler_defines(compiler: T.List[str], lang: str) -> T.Dict[str,
+         # based on the driver.
+         lang = clang_lang_map[lang]
+ 
+-        # The compiler may not infer the target language based on the driver name.
+-        # Try first with '-x lang' to supported systemwide language level overrides,
+-        # then fallback to without since it's a more recent option.
+-        output = _try_obtain_compiler_defines(['-x', lang] + baseline_test_args)
++        # The compiler may not infer the target language based on the driver name
++        # so first, try with '-cpp -x lang', then fallback without given it's less
++        # portable. We try with '-cpp' as GCC needs it for Fortran at least, and
++        # it seems to do no harm.
++        output = _try_obtain_compiler_defines(['-cpp', '-x', lang] + baseline_test_args)
+     except (EnvironmentException, KeyError):
+-        mlog.debug(f'pre-processor extraction using -x {lang} failed, falling back w/o lang')
++        mlog.debug(f'pre-processor extraction using -cpp -x {lang} failed, falling back w/o lang')
+         output = _try_obtain_compiler_defines(baseline_test_args)
+ 
+     defines: T.Dict[str, str] = {}
