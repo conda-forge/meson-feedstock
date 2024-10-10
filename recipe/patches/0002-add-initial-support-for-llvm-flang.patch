@@ -1,8 +1,9 @@
-From 4f108e0f58bf781c3ccecd3f63550e578af70441 Mon Sep 17 00:00:00 2001
+From 9f752a523c2aa0bcd822e6e63cd27f943eb3b369 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Fri, 14 Jun 2024 23:59:41 +1100
 Subject: [PATCH 2/2] add initial support for llvm-flang
 
+[Removed changes in docs/ as this folder is not present in PyPI tarball]
 ---
  mesonbuild/compilers/detect.py  | 28 ++++++++++++++---
  mesonbuild/compilers/fortran.py | 56 +++++++++++++++++++++++++++++++--
@@ -10,7 +11,7 @@ Subject: [PATCH 2/2] add initial support for llvm-flang
  3 files changed, 79 insertions(+), 6 deletions(-)
 
 diff --git a/mesonbuild/compilers/detect.py b/mesonbuild/compilers/detect.py
-index 3a678211c..c796c2f38 100644
+index c8b67f479..26968e654 100644
 --- a/mesonbuild/compilers/detect.py
 +++ b/mesonbuild/compilers/detect.py
 @@ -45,7 +45,8 @@ if is_windows():
@@ -20,8 +21,8 @@ index 3a678211c..c796c2f38 100644
 -    defaults['fortran'] = ['ifort', 'gfortran', 'flang', 'pgfortran', 'g95']
 +    # the binary flang-new will be renamed to flang in the foreseeable future
 +    defaults['fortran'] = ['ifort', 'gfortran', 'flang-new', 'flang', 'pgfortran', 'g95']
-     defaults['objc'] = ['clang-cl', 'gcc']
-     defaults['objcpp'] = ['clang-cl', 'g++']
+     defaults['objc'] = ['clang', 'clang-cl', 'gcc']
+     defaults['objcpp'] = ['clang-cl', 'clang-cl', 'g++']
      defaults['cs'] = ['csc', 'mcs']
 @@ -60,7 +61,8 @@ else:
          defaults['cpp'] = ['c++', 'g++', 'clang++', 'nvc++', 'pgc++', 'icpc', 'icpx']
@@ -154,10 +155,10 @@ index 3e332381d..90dc19c2f 100644
  
      id = 'open64'
 diff --git a/run_project_tests.py b/run_project_tests.py
-index 974273fc7..2203da874 100755
+index c11410486..628a44c00 100755
 --- a/run_project_tests.py
 +++ b/run_project_tests.py
-@@ -1080,6 +1080,7 @@ def detect_tests_to_run(only: T.Dict[str, T.List[str]], use_tmp: bool) -> T.List
+@@ -1075,6 +1075,7 @@ def detect_tests_to_run(only: T.Dict[str, T.List[str]], use_tmp: bool) -> T.List
      """
  
      skip_fortran = not(shutil.which('gfortran') or
