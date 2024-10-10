@@ -1,7 +1,7 @@
-From 35ef14a3f668126059d7502f862cbf96dde09150 Mon Sep 17 00:00:00 2001
+From 8acf553d362bb26c95f1b35a6683d39cbaf2f8b7 Mon Sep 17 00:00:00 2001
 From: Eric Le Bihan <eric.le.bihan.dev@free.fr>
 Date: Sat, 14 Jul 2018 11:18:45 +0200
-Subject: [PATCH 1/2] Only fix RPATH if install_rpath is not empty
+Subject: [PATCH] Only fix RPATH if install_rpath is not empty
 
 Signed-off-by: Eric Le Bihan <eric.le.bihan.dev@free.fr>
 [Fix: remove leftover from original/unconditional code]
@@ -11,10 +11,10 @@ Signed-off-by: Peter Seiderer <ps.report@gmx.net>
  1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/mesonbuild/minstall.py b/mesonbuild/minstall.py
-index 36284f0af..dec36654c 100644
+index 9921295fd..35da544cf 100644
 --- a/mesonbuild/minstall.py
 +++ b/mesonbuild/minstall.py
-@@ -766,8 +766,14 @@ class Installer:
+@@ -767,8 +767,14 @@ class Installer:
              if file_copied:
                  self.did_install_something = True
                  try:
