@@ -3,7 +3,7 @@ About meson-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/meson-feedstock/blob/main/LICENSE.txt)
 
-Home: https://mesonbuild.com
+Home: https://mesonbuild.com/
 
 Package license: Apache-2.0
 
@@ -11,7 +11,7 @@ Summary: The Meson Build System
 
 Development: https://github.com/mesonbuild/meson
 
-Documentation: https://mesonbuild.com
+Documentation: https://mesonbuild.com/
 
 Current build status
 ====================
