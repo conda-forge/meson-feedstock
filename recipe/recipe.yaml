@@ -28,7 +28,6 @@ requirements:
   run:
     - python >=${{ python_min }}
     - ninja >=1.8.2
-    - setuptools
 
 tests:
   - script:
