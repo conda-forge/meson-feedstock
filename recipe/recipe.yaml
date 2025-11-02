@@ -1,5 +1,5 @@
 context:
-  version: "1.9.0"
+  version: "1.9.1"
 
 package:
   name: meson
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mesonbuild/meson/releases/download/${{ version }}/meson-${{ version }}.tar.gz
-  sha256: cd27277649b5ed50d19875031de516e270b22e890d9db65ed9af57d18ebc498d
+  sha256: 4e076606f2afff7881d195574bddcd8d89286f35a17b4977a216f535dc0c74ac
   patches:
     # See conda-forge/glib-feedstock#40 for documentation regarding the RPATH patch
     - patches/0001-Only-fix-RPATH-if-install_rpath-is-not-empty.patch
